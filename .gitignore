@@ -1,0 +1,16 @@
+# ===== Reusable JUCE / Projucer .gitignore =====
+# Commit SOURCE only (.jucer + Source/). Everything below is generated
+# by Projucer/Xcode and can be regenerated, so we don't track it.
+
+# Projucer-generated IDE projects (Xcode, Visual Studio, etc.)
+Builds/
+
+# Projucer-generated JUCE module wrappers
+JuceLibraryCode/
+
+# Xcode per-user state (window layout, breakpoints) — not shareable
+*.xcuserdatad
+xcuserdata/
+
+# macOS Finder metadata junk
+.DS_Store
