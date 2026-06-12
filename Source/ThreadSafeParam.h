@@ -15,7 +15,7 @@ class ThreadSafeParam {
     std::atomic<float> param;
     
 public:
-    ThreadSafeParam(float initialValue = 0.0f) : param (initialValue) {}
+    ThreadSafeParam(float initialValue) : param (initialValue) {}
     float get() const {
         return param.load(std::memory_order_relaxed);
     }
