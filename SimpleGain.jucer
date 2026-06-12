@@ -12,6 +12,8 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="baej96" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="vSzA3x" name="ThreadSafeParam.h" compile="0" resource="0"
+          file="Source/ThreadSafeParam.h"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
