@@ -13,8 +13,14 @@
 SimpleGainAudioProcessorEditor::SimpleGainAudioProcessorEditor (SimpleGainAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+    gainSlider.setRange(0.0, 1.0);
+    gainSlider.setValue(1.0);
+    addAndMakeVisible(gainSlider);
+    
+    gainSlider.onValueChange = [this] {
+        audioProcessor.gain.set( (float) gainSlider.getValue());
+    };
+    
     setSize (400, 300);
 }
 
@@ -35,6 +41,5 @@ void SimpleGainAudioProcessorEditor::paint (juce::Graphics& g)
 
 void SimpleGainAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    gainSlider.setBounds(100, 100, 200, 150);
 }
