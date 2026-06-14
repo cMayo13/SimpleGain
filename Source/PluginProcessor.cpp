@@ -93,8 +93,7 @@ void SimpleGainAudioProcessor::changeProgramName (int index, const juce::String&
 //==============================================================================
 void SimpleGainAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    smoother.reset(sampleRate, 0.5);
 }
 
 void SimpleGainAudioProcessor::releaseResources()
@@ -135,7 +134,6 @@ void SimpleGainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     
-    const float currentGain = gain.get();
     const int numSamples = buffer.getNumSamples();
 
     // In case we have more outputs than inputs, this code clears any output
@@ -153,12 +151,14 @@ void SimpleGainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        for (int sample = 0; sample < numSamples; ++sample) {
-            channelData[sample] *= currentGain;
+    
+    smoother.setTargetValue(gain.get());
+    
+    for (int sample = 0; sample < numSamples; ++sample) {
+        const float g = smoother.getNextValue();
+        
+        for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+            buffer.getWritePointer(channel)[sample] *= g;
         }
     }
 }
