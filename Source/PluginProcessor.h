@@ -21,7 +21,7 @@ public:
     SimpleGainAudioProcessor();
     ~SimpleGainAudioProcessor() override;
     
-    ThreadSafeParam gain {1.0f};
+    ThreadSafeParam gain {0.0f};
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;

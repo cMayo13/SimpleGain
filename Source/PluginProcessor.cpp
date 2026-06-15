@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <cmath>
 
 //==============================================================================
 SimpleGainAudioProcessor::SimpleGainAudioProcessor()
@@ -133,8 +134,6 @@ void SimpleGainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-    
-    const int numSamples = buffer.getNumSamples();
 
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -152,7 +151,13 @@ void SimpleGainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
     
-    smoother.setTargetValue(gain.get());
+    const int numSamples = buffer.getNumSamples();
+    
+    const float dB = gain.get();
+    const float linearGain = dB <= -60.0f ? 0.0f : std::pow(10.0f, dB / 20.0f);
+    const float juceGain = juce::Decibels::decibelsToGain(dB, -60.0f);
+    jassert(juce::approximatelyEqual(linearGain, juceGain, juce::absoluteTolerance (1.0e-5f)));
+    smoother.setTargetValue(linearGain);
     
     for (int sample = 0; sample < numSamples; ++sample) {
         const float g = smoother.getNextValue();
