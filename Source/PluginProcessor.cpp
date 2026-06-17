@@ -94,7 +94,7 @@ void SimpleGainAudioProcessor::changeProgramName (int index, const juce::String&
 //==============================================================================
 void SimpleGainAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    smoother.reset(sampleRate, 0.5);
+    smoother.reset(sampleRate, 0.10);
 }
 
 void SimpleGainAudioProcessor::releaseResources()

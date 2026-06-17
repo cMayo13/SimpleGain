@@ -13,7 +13,7 @@
 SimpleGainAudioProcessorEditor::SimpleGainAudioProcessorEditor (SimpleGainAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    gainSlider.setNormalisableRange(juce::NormalisableRange<double> (-60.0, 6.0, 0.1, 3.0));
+    gainSlider.setNormalisableRange(juce::NormalisableRange<double> (-60.0, 6.0, 0.1, 4.0));
     gainSlider.setValue(0.0);
     addAndMakeVisible(gainSlider);
     
@@ -36,7 +36,7 @@ void SimpleGainAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (juce::FontOptions (15.0f));
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawFittedText ("GAIN (dB):", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void SimpleGainAudioProcessorEditor::resized()
