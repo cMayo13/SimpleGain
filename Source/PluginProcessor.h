@@ -9,7 +9,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "ThreadSafeParam.h"
 
 //==============================================================================
 /**
@@ -21,7 +20,7 @@ public:
     SimpleGainAudioProcessor();
     ~SimpleGainAudioProcessor() override;
     
-    ThreadSafeParam gain {0.0f};
+    juce::AudioProcessorValueTreeState apvts;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -57,6 +56,9 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+    
+    std::atomic<float>* gainParam = nullptr;
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> smoother;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleGainAudioProcessor)

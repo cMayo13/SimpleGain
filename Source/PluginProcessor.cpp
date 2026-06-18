@@ -20,14 +20,30 @@ SimpleGainAudioProcessor::SimpleGainAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts (*this, nullptr, "PARAMETERS", createParameters())
 #endif
 {
+    gainParam = apvts.getRawParameterValue ("GAIN");
 }
 
 SimpleGainAudioProcessor::~SimpleGainAudioProcessor()
 {
 }
+
+juce::AudioProcessorValueTreeState::ParameterLayout SimpleGainAudioProcessor::createParameters()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    
+    params.push_back (std::make_unique<juce::AudioParameterFloat>(
+        juce::ParameterID { "GAIN", 1},
+        "Gain",
+        juce::NormalisableRange<float>(-60.0f, 6.0f, 0.1f, 4.0f),
+        0.0f));
+    
+    return { params.begin(), params.end() };
+}
+
+
 
 //==============================================================================
 const juce::String SimpleGainAudioProcessor::getName() const
@@ -153,7 +169,7 @@ void SimpleGainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     
     const int numSamples = buffer.getNumSamples();
     
-    const float dB = gain.get();
+    const float dB = gainParam->load();
     const float linearGain = dB <= -60.0f ? 0.0f : std::pow(10.0f, dB / 20.0f);
     const float juceGain = juce::Decibels::decibelsToGain(dB, -60.0f);
     jassert(juce::approximatelyEqual(linearGain, juceGain, juce::absoluteTolerance (1.0e-5f)));

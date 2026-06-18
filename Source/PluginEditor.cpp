@@ -17,10 +17,6 @@ SimpleGainAudioProcessorEditor::SimpleGainAudioProcessorEditor (SimpleGainAudioP
     gainSlider.setValue(0.0);
     addAndMakeVisible(gainSlider);
     
-    gainSlider.onValueChange = [this] {
-        audioProcessor.gain.set( (float) gainSlider.getValue());
-    };
-    
     setSize (400, 300);
 }
 
