@@ -24,6 +24,7 @@ SimpleGainAudioProcessor::SimpleGainAudioProcessor()
 #endif
 {
     gainParam = apvts.getRawParameterValue ("GAIN");
+    bypassParam = apvts.getRawParameterValue("BYPASS");
 }
 
 SimpleGainAudioProcessor::~SimpleGainAudioProcessor()
@@ -39,7 +40,12 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleGainAudioProcessor::cr
         "Gain",
         juce::NormalisableRange<float>(-60.0f, 6.0f, 0.1f, 4.0f),
         0.0f));
-    
+        
+    params.push_back (std::make_unique<juce::AudioParameterBool>(
+        juce::ParameterID { "BYPASS", 1 },
+        "Bypass",
+        false));
+        
     return { params.begin(), params.end() };
 }
 
@@ -159,6 +165,8 @@ void SimpleGainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+    
+    if (bypassParam->load (std::memory_order_relaxed) >= 0.5f) {return;}
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
