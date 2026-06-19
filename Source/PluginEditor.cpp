@@ -11,10 +11,14 @@
 
 //==============================================================================
 SimpleGainAudioProcessorEditor::SimpleGainAudioProcessorEditor (SimpleGainAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), gainAttachment (audioProcessor.apvts, "GAIN", gainSlider)
+    : AudioProcessorEditor (&p), audioProcessor (p), gainAttachment (audioProcessor.apvts, "GAIN", gainSlider),
+      bypassAttachment(audioProcessor.apvts, "BYPASS", bypassButton)
 {
     addAndMakeVisible(gainSlider);
+    addAndMakeVisible(bypassButton);
+    bypassButton.setButtonText("Bypass");
     setSize (400, 300);
+    
 }
 
 SimpleGainAudioProcessorEditor::~SimpleGainAudioProcessorEditor()
@@ -35,4 +39,5 @@ void SimpleGainAudioProcessorEditor::paint (juce::Graphics& g)
 void SimpleGainAudioProcessorEditor::resized()
 {
     gainSlider.setBounds(100, 100, 200, 150);
+    bypassButton.setBounds(160, 225, 120, 24);
 }

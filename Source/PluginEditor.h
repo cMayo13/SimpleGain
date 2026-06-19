@@ -25,13 +25,13 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
     SimpleGainAudioProcessor& audioProcessor;
     
     juce::Slider gainSlider;
+    juce::ToggleButton bypassButton;
     
     juce::AudioProcessorValueTreeState::SliderAttachment gainAttachment;
+    juce::AudioProcessorValueTreeState::ButtonAttachment bypassAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleGainAudioProcessorEditor)
 };
