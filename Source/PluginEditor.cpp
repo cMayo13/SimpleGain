@@ -29,7 +29,7 @@ void SimpleGainAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (juce::FontOptions (15.0f));
-    g.drawFittedText ("GAIN (dB)::", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawFittedText ("GAIN (dB):", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void SimpleGainAudioProcessorEditor::resized()
