@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="wfhpJz" name="SimpleGain" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginManufacturer="Charlie Mayo">
   <MAINGROUP id="ioyOyD" name="SimpleGain">
     <GROUP id="{2EC598D6-14A6-D214-23DE-91381CF68225}" name="Source">
       <FILE id="yuIoY6" name="PluginProcessor.cpp" compile="1" resource="0"
